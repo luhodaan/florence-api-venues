@@ -1,6 +1,9 @@
 package main
 
 import (
+	"database/sql"
+	"fmt"
+
 	_ "github.com/lib/pq"
 )
 
@@ -53,4 +56,25 @@ type Venues struct {
 	VenueCapacityAll  string  `json:"venue_capacity_all"`
 	Nr                int     `json:"nr"`
 	Key               string  `json:"key"`
+}
+
+func main() {
+
+	var db *sql.DB
+	var err error
+
+	connsStr := "postgresql://luho:luho@localhost:5432/myapp?sslmode=disable"
+
+	db, err = sql.Open("postgres", connsStr)
+
+	if err != nil {
+		panic(err)
+	}
+
+	if err = db.Ping(); err != nil {
+		panic(err)
+	}
+	// this will be printed in the terminal, confirming the connection to the database
+	fmt.Println("The database is connected")
+
 }
